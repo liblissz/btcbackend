@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { Email, Password, Role } = req.body;
+    const { Email, Password } = req.body;
 
     const finuser = await User.findOne({ Email });
 
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     }
 
       // const findspecific = await User.findOne({Email, Password, Role});
-    const confirmpass =  Password === finuser.Password && Role === finuser.Role;
+    const confirmpass =  Password === finuser.Password ;
     // = Email === findspecific.Email && Password === findspecific.Password 
 
     if (confirmpass) {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
     } else {
       res.status(401).json({
         success: false,
-        message: "Your password or role is incorrect",
+        message: "Your password is incorrect",
       });
     }
   } catch (error) {

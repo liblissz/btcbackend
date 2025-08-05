@@ -331,11 +331,10 @@ router.patch('/:orderId/status', async (req, res) => {
 
 
 
-
-router.get('/receipt/:orderId', getBrowserId, async (req, res) => {
+router.get('/receipt/:orderId', async (req, res) => {
   try {
     const { orderId } = req.params;
-    const order = await Order.findOne({ _id: orderId, browserId: req.browserId })
+    const order = await Order.findOne({ _id: orderId })
       .populate('items.productId', 'Name Category BarcodeNumber Picture SalePrice');
 
     if (!order) return res.status(404).json({ error: 'Order not found' });
@@ -346,10 +345,8 @@ router.get('/receipt/:orderId', getBrowserId, async (req, res) => {
     const doc = new PDFDocument({ size: 'A4', margins: { top: 60, bottom: 60, left: 50, right: 50 } });
     doc.pipe(res);
 
-   
     // Header
     doc
-    
       .fontSize(32)
       .fillColor('#000')
       .text('BTC PHARMACY', 180, 40)
@@ -373,29 +370,37 @@ router.get('/receipt/:orderId', getBrowserId, async (req, res) => {
     const metaY = 165;
     doc
       .fontSize(10)
-      .text(`Order ID: `, 50, metaY, { continued: true }).font('Helvetica-Bold').text(order._id)
+      .text(`Order ID: `, 50, metaY, { continued: true })
+      .font('Helvetica-Bold')
+      .text(order._id)
       .font('Helvetica')
-      .text(`Date: `, 50, metaY + 15, { continued: true }).font('Helvetica-Bold').text(order.createdAt.toLocaleString())
+      .text(`Date: `, 50, metaY + 15, { continued: true })
+      .font('Helvetica-Bold')
+      .text(order.createdAt.toLocaleString())
       .font('Helvetica')
-      .text(`Status: `, 300, metaY, { continued: true }).font('Helvetica-Bold').text(order.status)
+      .text(`Status: `, 300, metaY, { continued: true })
+      .font('Helvetica-Bold')
+      .text(order.status)
       .font('Helvetica')
-      .text(`PIN: `, 300, metaY + 15, { continued: true }).font('Helvetica-Bold').text(order.confirmationPin)
+      .text(`PIN: `, 300, metaY + 15, { continued: true })
+      .font('Helvetica-Bold')
+      .text(order.confirmationPin)
       .moveDown(2);
 
     // Table header
     const tableTop = 210;
-    const cols = { name:50, cat:200, barcode:300, qty:380, unit:430, total:500 };
+    const cols = { name: 50, cat: 200, barcode: 300, qty: 380, unit: 430, total: 500 };
     doc
       .font('Helvetica-Bold')
       .fontSize(10)
       .text('Item', cols.name, tableTop)
       .text('Category', cols.cat, tableTop)
       .text('Barcode', cols.barcode, tableTop)
-      .text('Qty', cols.qty, tableTop, { width:30, align:'right' })
-      .text('Unit Price', cols.unit, tableTop, { width:60, align:'right' })
-      .text('Line Total', cols.total, tableTop, { width:60, align:'right' });
+      .text('Qty', cols.qty, tableTop, { width: 30, align: 'center' })
+      .text('Unit Price', cols.unit, tableTop, { width: 60, align: 'center' })
+      .text('Line Total', cols.total, tableTop, { width: 60, align: 'center' });
 
-    doc.moveTo(50, tableTop+15).lineTo(doc.page.width-50, tableTop+15).stroke('#ccc');
+    doc.moveTo(50, tableTop + 15).lineTo(doc.page.width - 50, tableTop + 15).stroke('#ccc');
 
     // Table rows
     let y = tableTop + 25;
@@ -406,23 +411,34 @@ router.get('/receipt/:orderId', getBrowserId, async (req, res) => {
         .text(item.Name, cols.name, y)
         .text(item.Category, cols.cat, y)
         .text(item.BarcodeNumber, cols.barcode, y)
-        .text(item.quantity, cols.qty, y, { width:30, align:'right' })
-        .text(item.SalePrice.toFixed(2), cols.unit, y, { width:60, align:'right' })
-        .text(lineTotal.toFixed(2), cols.total, y, { width:60, align:'right' });
+        .text(item.quantity.toString(), cols.qty, y, { width: 30, align: 'center' })
+        .text(item.SalePrice.toFixed(2), cols.unit, y, { width: 60, align: 'center' })
+        .text(lineTotal.toFixed(2), cols.total, y, { width: 60, align: 'center' });
       y += 20;
       if (y > doc.page.height - 100) {
-        doc.addPage(); y = 60;
+        doc.addPage();
+        y = 60;
       }
     });
 
     // Grand total
-    doc.font('Helvetica-Bold').fontSize(14)
-       .text(`GRAND TOTAL: ${order.totalAmount.toFixed(2)} FCFA`, 50, y+20, { align:'right' });
+    doc
+      .font('Helvetica-Bold')
+      .fontSize(14)
+      .text(`GRAND TOTAL: ${order.totalAmount.toFixed(2)} FCFA`, 50, y + 20, { align: 'right' });
 
     // Footer
-    doc.fontSize(8).fillColor('#777')
-       .text('Thank you for choosing BTC Pharmacy! We wish you good health.www.btc-pharmacy.com', 50,  doc.page.height - 60, { align:'center' });
-      doc.end();
+    doc
+      .fontSize(8)
+      .fillColor('#777')
+      .text(
+        'Thank you for choosing BTC Pharmacy! We wish you good health.www.btc-pharmacy.com',
+        50,
+        doc.page.height - 60,
+        { align: 'center' }
+      );
+
+    doc.end();
   } catch (err) {
     console.error('❌ Error generating receipt PDF:', err);
     res.status(500).json({ error: 'Failed to generate receipt' });

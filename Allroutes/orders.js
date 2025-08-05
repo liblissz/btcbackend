@@ -7,6 +7,7 @@ import User from '../models/loginmodel.js';
 import SibApiV3Sdk from 'sib-api-v3-sdk';
 import bodyParser from 'body-parser';
 
+import QRCode  from 'qrcode'
 
 const router = express.Router();
 
@@ -330,7 +331,6 @@ router.patch('/:orderId/status', async (req, res) => {
 
 
 
-
 router.get('/receipt/:orderId', async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -344,6 +344,16 @@ router.get('/receipt/:orderId', async (req, res) => {
 
     const doc = new PDFDocument({ size: 'A4', margins: { top: 60, bottom: 60, left: 50, right: 50 } });
     doc.pipe(res);
+
+    // Compose text for QR code
+    let qrText = `BTC PHARMACY RECEIPT\n\nOrder ID: ${order._id}\nDate: ${order.createdAt.toLocaleString()}\nStatus: ${order.status}\nPIN: ${order.confirmationPin}\n\nItems:\n`;
+    order.items.forEach(item => {
+      const lineTotal = item.quantity * item.SalePrice;
+      qrText += `${item.Name} | Qty: ${item.quantity} | Unit: ${item.SalePrice} | Total: ${lineTotal}\n`;
+    });
+    qrText += `\nGRAND TOTAL: ${order.totalAmount.toFixed(2)} FCFA`;
+
+    const qrImageBuffer = await QRCode.toBuffer(qrText, { type: 'png' });
 
     // Header
     doc
@@ -371,20 +381,16 @@ router.get('/receipt/:orderId', async (req, res) => {
     doc
       .fontSize(10)
       .text(`Order ID: `, 50, metaY, { continued: true })
-      .font('Helvetica-Bold')
-      .text(order._id)
+      .font('Helvetica-Bold').text(order._id)
       .font('Helvetica')
       .text(`Date: `, 50, metaY + 15, { continued: true })
-      .font('Helvetica-Bold')
-      .text(order.createdAt.toLocaleString())
+      .font('Helvetica-Bold').text(order.createdAt.toLocaleString())
       .font('Helvetica')
       .text(`Status: `, 300, metaY, { continued: true })
-      .font('Helvetica-Bold')
-      .text(order.status)
+      .font('Helvetica-Bold').text(order.status)
       .font('Helvetica')
       .text(`PIN: `, 300, metaY + 15, { continued: true })
-      .font('Helvetica-Bold')
-      .text(order.confirmationPin)
+      .font('Helvetica-Bold').text(order.confirmationPin)
       .moveDown(2);
 
     // Table header
@@ -415,7 +421,7 @@ router.get('/receipt/:orderId', async (req, res) => {
         .text(item.SalePrice.toFixed(2), cols.unit, y, { width: 60, align: 'center' })
         .text(lineTotal.toFixed(2), cols.total, y, { width: 60, align: 'center' });
       y += 20;
-      if (y > doc.page.height - 100) {
+      if (y > doc.page.height - 150) {
         doc.addPage();
         y = 60;
       }
@@ -427,12 +433,18 @@ router.get('/receipt/:orderId', async (req, res) => {
       .fontSize(14)
       .text(`GRAND TOTAL: ${order.totalAmount.toFixed(2)} FCFA`, 50, y + 20, { align: 'right' });
 
+    // QR Code below grand total
+const qrWidth = 100;
+const rightX = doc.page.width - qrWidth - 100; // pushed further left
+doc.image(qrImageBuffer, rightX, y + 50, { width: qrWidth });
+
+
     // Footer
     doc
       .fontSize(8)
       .fillColor('#777')
       .text(
-        'Thank you for choosing BTC Pharmacy! We wish you good health.www.btc-pharmacy.com',
+        'Thank you for choosing BTC Pharmacy! We wish you good health. www.btc-pharmacy.com',
         50,
         doc.page.height - 60,
         { align: 'center' }
@@ -440,11 +452,10 @@ router.get('/receipt/:orderId', async (req, res) => {
 
     doc.end();
   } catch (err) {
-    console.error('❌ Error generating receipt PDF:', err);
+    console.error('❌ Error generating receipt PDF with QR code:', err);
     res.status(500).json({ error: 'Failed to generate receipt' });
   }
 });
-
 
 
 

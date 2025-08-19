@@ -314,16 +314,16 @@ router.get('/receipt/:orderId', async (req, res) => {
       .font('Helvetica')
       .text(`PIN: `, 300, metaY + 15, { continued: true })
       .font('Helvetica-Bold').text(order.confirmationPin)
-       .moveDown(20)
+     
+      .moveDown(2)
+ 
 
       .font('Helvetica')
-      .text(`Customer Name: `, 300, metaY + 15, { continued: true })
+      .text(`Customer Name: `, 400, metaY + 100, { continued: true })
       .font('Helvetica-Bold').text(order.customer.Name)
        .font('Helvetica')
-      .text(`Address: `, 300, metaY, { continued: true })
-      .font('Helvetica-Bold').text(order.customer.address)
-      .moveDown(2);
-
+      .text(`Address: `, 400, metaY, { continued: true })
+      .font('Helvetica-Bold').text(order.customer.address);
     // Table header
     const tableTop = 210;
     const cols = { name: 50, cat: 200, barcode: 300, qty: 380, unit: 430, total: 500 };

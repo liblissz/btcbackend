@@ -314,7 +314,9 @@ router.get('/receipt/:orderId', async (req, res) => {
       .font('Helvetica')
       .text(`PIN: `, 300, metaY + 15, { continued: true })
       .font('Helvetica-Bold').text(order.confirmationPin)
-        .font('Helvetica')
+       .moveDown(2)
+
+      .font('Helvetica')
       .text(`Customer Name: `, 300, metaY + 15, { continued: true })
       .font('Helvetica-Bold').text(order.customer.Name)
        .font('Helvetica')

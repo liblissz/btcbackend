@@ -319,10 +319,10 @@ router.get('/receipt/:orderId', async (req, res) => {
  
 
       .font('Helvetica')
-      .text(`Customer Name: `, 400, metaY + 100, { continued: true })
+      .text(`Customer Name: `, 700, metaY + 16, { continued: true })
       .font('Helvetica-Bold').text(order.customer.Name)
        .font('Helvetica')
-      .text(`Address: `, 400, metaY, { continued: true })
+      .text(`Address: `, 700, metaY, { continued: true })
       .font('Helvetica-Bold').text(order.customer.address);
     // Table header
     const tableTop = 210;

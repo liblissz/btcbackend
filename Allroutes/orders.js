@@ -315,10 +315,10 @@ router.get('/receipt/:orderId', async (req, res) => {
       .text(`PIN: `, 300, metaY + 15, { continued: true })
       .font('Helvetica-Bold').text(order.confirmationPin)
         .font('Helvetica')
-      .text(`Customer Name: `, 300, metaY, { continued: true })
+      .text(`Customer Name: `, 300, metaY + 15, { continued: true })
       .font('Helvetica-Bold').text(order.customer.Name)
        .font('Helvetica')
-      .text(`Address: `, 300, metaY + 15, { continued: true })
+      .text(`Address: `, 300, metaY, { continued: true })
       .font('Helvetica-Bold').text(order.customer.address)
       .moveDown(2);
 

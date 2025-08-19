@@ -224,10 +224,6 @@ router.post('/updatestatus/:id', async (req, res) => {
 
 
 
-
-
-
-// PATCH /orders/:orderId/status - update order status
 router.patch('/:orderId/status', async (req, res) => {
   try {
     const { status } = req.body;
@@ -254,79 +250,6 @@ router.patch('/:orderId/status', async (req, res) => {
 
 
 
-
-
-// router.get('/receipt/:orderId', getBrowserId, async (req, res) => {
-//   try {
-//     const { orderId } = req.params;
-//     const order = await Order.findOne({
-//       _id: orderId,
-//       browserId: req.browserId
-//     }).populate('items.productId', 'Name Category BarcodeNumber Picture');
-
-//     if (!order) {
-//       return res.status(404).json({ error: 'Order not found' });
-//     }
-
-//     // PDF response headers
-//     res.setHeader('Content-Type', 'application/pdf');
-//     res.setHeader(
-//       'Content-Disposition',
-//       `attachment; filename=receipt-${orderId}.pdf`
-//     );
-
-//      const doc = new PDFDocument({ size: 'A4', margins: { top: 60, bottom: 60, left: 50, right: 50 } });
-//     doc.pipe(res);
-
-
-    
-//     // --- HEADER ---
-//     doc.fontSize(20).text('BTC Pharmacy Receipt', { align: 'center' });
-//     doc.moveDown(0.5);
-//     doc.fontSize(12)
-//        .text(`Order ID:        ${order._id}`)
-//        .text(`Browser ID:      ${order.browserId}`)
-//        .text(`Confirmation PIN:${order.confirmationPin}`)
-//        .text(`Status:          ${order.status}`)
-//        .text(`Date:            ${order.createdAt.toLocaleString()}`)
-//        .moveDown();
-
-//     // --- TABLE HEADER ---
-//     const tableTop = doc.y + 10;
-//     const cols = { name: 40, category: 200, barcode: 310, qty: 400, unit: 440, line: 500 };
-//     doc.font('Helvetica-Bold');
-//     doc.text('Name',       cols.name,     tableTop);
-//     doc.text('Category',   cols.category, tableTop);
-//     doc.text('Barcode',    cols.barcode,  tableTop);
-//     doc.text('Qty',        cols.qty,      tableTop, { width: 30, align: 'right' });
-//     doc.text('Unit',       cols.unit,     tableTop, { width: 50, align: 'right' });
-//     doc.text('Line Total', cols.line,     tableTop, { width: 70, align: 'right' });
-//     doc.moveDown(0.5).font('Helvetica');
-
-//     // --- TABLE ROWS ---
-//     order.items.forEach(item => {
-//       const y = doc.y;
-//       const lineTotal = item.quantity * item.SalePrice;
-//       doc.text(item.Name,               cols.name,     y);
-//       doc.text(item.Category,           cols.category, y);
-//       doc.text(item.BarcodeNumber,      cols.barcode,  y);
-//       doc.text(item.quantity,           cols.qty,      y, { width: 30, align: 'right' });
-//       doc.text(`${item.SalePrice}`,     cols.unit,     y, { width: 50, align: 'right' });
-//       doc.text(`${lineTotal}`,          cols.line,     y, { width: 70, align: 'right' });
-//       doc.moveDown();
-//     });
-
-//     // --- GRAND TOTAL ---
-//     doc.moveDown(1);
-//     doc.font('Helvetica-Bold')
-//        .text(`Total Amount: ${order.totalAmount} FCFA`, { align: 'right' });
-
-//     doc.end();
-//   } catch (err) {
-//     console.error('❌ Error generating receipt PDF:', err);
-//     res.status(500).json({ error: 'Failed to generate receipt' });
-//   }
-// });
 
 
 

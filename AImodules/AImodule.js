@@ -282,7 +282,7 @@ if (
 }
 
 async function searchImageOnUnsplash(query) {
-  const ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || "PbFWBfo9nPto__QPiEJ84ALs8asqr-kmEVr3H3TkKss";
+  const ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
   try {
     console.log(`Searching Unsplash for: "${query}"`);

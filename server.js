@@ -16,9 +16,15 @@ import purchase from './Allroutes/Drugpurchaseroute.js'
 import subscriber from './Allroutes/Subscriberoute.js'
 
 import allorders from './Allroutes/AllOrders.js'
-
+import deleteall from './Allroutes/delete.js'
+import loginuser from './Allroutes/NormalusersLogin.js'
+import userorder from './Allroutes/UserOrder.js'
+import deletedrug from './Allroutes/deletedrug.js'
+import Search from './Allroutes/Search.js'
+import usercart from './Allroutes/usercart.js'
 import SibApiV3Sdk from 'sib-api-v3-sdk';
 import bodyParser from 'body-parser';
+import sms from './models/sms.js'
 env.config({path : "./config.env"});
 
 const app = express();
@@ -36,17 +42,23 @@ app.use("/patient", patientroute)
 app.use("/vendors", vendorroute)
 app.use("/drugs", dugsroute)
 app.use('/purchase', purchase)
-
+app.use("/api/search", Search);
+app.use('/delete', deleteall)
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoutes);
 app.use('/vendors', vendors)
 app.use('/allorders', allorders)
 app.use("/subscriber", subscriber)
+app.use("/drugs/delete/id", deletedrug)
+app.use("/loginnormal", loginuser)
 
+app.use("/userorder", userorder)
 // drugid/:id
 app.use('/ai/chat', chartbot)
 app.use("/drugpurchsing", drugpurchsing)
 app.use('/login', login)
+app.use('/usercart', usercart)
+app.use("/send-otp", sms)
 const port = 2500;
 
 
@@ -73,6 +85,7 @@ console.log(`server listening at http://localhost:${port}`);
 console.log('====================================');
     })
 })
+
 
 
 

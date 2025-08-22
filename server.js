@@ -24,7 +24,7 @@ import Search from './Allroutes/Search.js'
 import usercart from './Allroutes/usercart.js'
 import SibApiV3Sdk from 'sib-api-v3-sdk';
 import bodyParser from 'body-parser';
-import sms from './models/sms.js'
+// import sms from './models/sms.js'
 env.config({path : "./config.env"});
 
 const app = express();

@@ -59,7 +59,7 @@ app.use('/ai/chat', chartbot)
 app.use("/drugpurchsing", drugpurchsing)
 app.use('/login', login)
 app.use('/usercart', usercart)
-app.use("/send-otp", sms)
+// app.use("/send-otp", sms)
 const port = 2500;
 
 

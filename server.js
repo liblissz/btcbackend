@@ -19,7 +19,7 @@ import allorders from './Allroutes/AllOrders.js'
 // import deleteall from './Allroutes/delete.js'
 import loginuser from './Allroutes/NormalusersLogin.js'
 import userorder from './Allroutes/UserOrder.js'
-import deletedrug from './Allroutes/deletedrug.js'
+// import deletedrug from './Allroutes/deletedrug.js'
 import Search from './Allroutes/Search.js'
 import usercart from './Allroutes/usercart.js'
 import SibApiV3Sdk from 'sib-api-v3-sdk';
@@ -49,7 +49,8 @@ app.use('/order', orderRoutes);
 app.use('/vendors', vendors)
 app.use('/allorders', allorders)
 app.use("/subscriber", subscriber)
-app.use("/drugs/delete/id", deletedrug)
+
+// app.use("/drugs/delete/id", deletedrug)
 app.use("/loginnormal", loginuser)
 
 app.use("/userorder", userorder)

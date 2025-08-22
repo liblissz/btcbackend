@@ -16,7 +16,7 @@ import purchase from './Allroutes/Drugpurchaseroute.js'
 import subscriber from './Allroutes/Subscriberoute.js'
 
 import allorders from './Allroutes/AllOrders.js'
-import deleteall from './Allroutes/delete.js'
+// import deleteall from './Allroutes/delete.js'
 import loginuser from './Allroutes/NormalusersLogin.js'
 import userorder from './Allroutes/UserOrder.js'
 import deletedrug from './Allroutes/deletedrug.js'
@@ -43,7 +43,7 @@ app.use("/vendors", vendorroute)
 app.use("/drugs", dugsroute)
 app.use('/purchase', purchase)
 app.use("/api/search", Search);
-app.use('/delete', deleteall)
+// app.use('/delete', deleteall)
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoutes);
 app.use('/vendors', vendors)

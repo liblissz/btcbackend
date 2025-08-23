@@ -92,9 +92,9 @@ router.post('/place', async (req, res) => {
               <h2 style="font-size:22px; margin-bottom:12px; color:#ffaa33;">👤 Customer Details</h2>
 
               <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Name:</strong> ${newOrder.customer.name}</p>
-              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Email:</strong> ${newOrder.customer.email}</p>
+          
               <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Address:</strong> ${newOrder.customer.address}</p>
-              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Illness:</strong> ${newOrder.customer.illness}</p>
+           
               <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Phone:</strong> ${newOrder.customer.number}</p>
               
               <hr style="border:0; border-top:1px solid #00e6e6; margin:20px 0;" />

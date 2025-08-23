@@ -121,7 +121,7 @@ router.post("/login", async (req, res) => {
   try {
     const { number, password } = req.body;
 
-    const check = await LoginModel.findOne({ number });
+    const check = await LoginModel.findOne({ number: number});
     if (!check) {
       return res.status(404).json({ message: "User not found" });
     }

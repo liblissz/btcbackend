@@ -90,60 +90,86 @@ router.post('/place', getBrowserId, async (req, res) => {
             subject: `🚀 New Order Made to  BTC PHARMACY: ${newOrder.customer.name}`,
             htmlContent: `
               <!DOCTYPE html>
-              <html lang="en">
-              <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Pefscom Posts Notification</title></head>
-              <body>
-                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#000000">
-                  <tr><td align="center" style="padding: 20px 10px;">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="max-width:600px; background: linear-gradient(135deg, #000000 0%, #1c1c1c 100%); border-radius: 8px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,255,0.3);">
-                      <tr><td align="center">
-                       <div style="padding: 20px; text-align: center; color: orange;">
-                          <h1 style="font-size: 36px; font-weight: 700; font-family: 'Georgia', serif; text-shadow: 0 0 10px rgba(0, 81, 255, 0.9);">🚀 New Order Notification</h1>
-                          <p style="font-size: 18px;">A new Order Has Been Made to BTC</p>
-                        </div>
-                         </td></tr>
-                      <tr><td style="padding: 0 30px 30px;">
-                        <h2 style="color: orange; font-family: 'Georgia', serif; font-size: 24px; margin-bottom: 10px;"> Order Details</h2>
-                  <h2 style="color: orange; font-family: 'Georgia', serif; font-size: 24px; margin-bottom: 10px;"> 
-                  Customer Details</h2>
-                 
-                        <p><strong>Customer Name:</strong> ${newOrder.customer.name}</p>
-                        <p style="color: orange;"><strong>Email:</strong> ${newOrder.customer.email}</p>
-                        <p style="color: orange;"><strong>Address:</strong> ${newOrder.customer.address}</p>
-                        <p style="color: orange;"><strong>Illness Details:</strong> ${newOrder.customer.illness}</p>
-                        <hr style="border-color: blue;">
-                          <p style="color: orange;"><strong>Number:</strong> ${newOrder.customer.number}</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BTC Pharmacy | Order Notification</title>
+</head>
+<body style="margin:0; padding:0; background:#0a0a0a; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 
-               ${
-  newOrder.items.map(p => `
-    <img src="${p.Picture}" alt="Product Image" style="height: 100px;"/>
-    <p><strong>Sale Price:</strong> ${p.SalePrice}</p>
-    <p style="color: orange;"><strong>Category:</strong> ${p.Category}</p>
-    <p style="color: orange;"><strong>Batch Number:</strong> ${p.BarcodeNumber}</p>
-    <hr style="border-color: blue;">
-    <p style="color: orange;"><strong>Quantity:</strong> ${p.quantity}</p>
-  `).join('')
-}
+  <!-- Outer Wrapper -->
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0a0a0a">
+    <tr>
+      <td align="center" style="padding: 40px 10px;">
+        
+        <!-- Inner Card -->
+        <table role="presentation" width="600" border="0" cellspacing="0" cellpadding="0" 
+          style="max-width:600px; background: linear-gradient(145deg,#0d0d0d,#1a1a1a); border-radius:20px; box-shadow:0 0 30px rgba(0,255,255,0.2); overflow:hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td align="center" style="padding: 40px 30px; background: linear-gradient(90deg,#001f3f,#0056b3);">
+              <h1 style="margin:0; font-size:34px; color:#ffffff; font-weight:800; letter-spacing:1px; text-shadow:0 0 12px rgba(0,255,255,0.8);">
+                🚀 New BTC Pharmacy Order
+              </h1>
+              <p style="margin:10px 0 0; font-size:18px; color:#f0f0f0;">An order has just been placed securely via BTC</p>
+            </td>
+          </tr>
+          
+          <!-- Body -->
+          <tr>
+            <td style="padding: 30px;">
+              <h2 style="font-size:22px; margin-bottom:12px; color:#00e6e6;">📦 Order Details</h2>
+              <h2 style="font-size:22px; margin-bottom:12px; color:#ffaa33;">👤 Customer Details</h2>
 
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Name:</strong> ${newOrder.customer.name}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Email:</strong> ${newOrder.customer.email}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Address:</strong> ${newOrder.customer.address}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Illness:</strong> ${newOrder.customer.illness}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Phone:</strong> ${newOrder.customer.number}</p>
+              
+              <hr style="border:0; border-top:1px solid #00e6e6; margin:20px 0;" />
 
-                          <p style="color: orange;"><strong>BrowserID:</strong> ${newOrder.browserId}</p>
-                          <p style="color: orange;"><strong>Total Amount:</strong> ${newOrder.totalAmount}</p>
-                          <p style="color: orange;"><strong>Status:</strong> ${newOrder.status}</p>
-                          <p style="color: orange;"><strong>Confirmation Pin:</strong> ${newOrder.confirmationPin}</p>
-                          <p style="color: orange;"><strong>Date Ordered:</strong> ${newOrder.createdAt}</p>
-                         
+              <!-- Loop Products -->
+              ${
+                newOrder.items.map(p => `
+                  <div style="margin-bottom:20px; border:1px solid #333; padding:15px; border-radius:10px; background:#111;">
+                    <img src="${p.Picture}" alt="Product Image" style="height:100px; border-radius:8px; box-shadow:0 0 12px rgba(0,255,255,0.3);" />
+                    <p style="color:#fff; font-size:15px; margin:8px 0;"><strong>💰 Price:</strong> ${p.SalePrice}</p>
+                    <p style="color:#ccc; font-size:15px; margin:8px 0;"><strong>📂 Category:</strong> ${p.Category}</p>
+                    <p style="color:#ccc; font-size:15px; margin:8px 0;"><strong>🔖 Batch No:</strong> ${p.BarcodeNumber}</p>
+                    <p style="color:#ccc; font-size:15px; margin:8px 0;"><strong>📦 Quantity:</strong> ${p.quantity}</p>
+                  </div>
+                `).join('')
+              }
 
-                          <p style="font-size: 0.9em; color: orange;">This is an automatic notification to BTC admins.</p>
-                      </td></tr>
-                      <tr><td align="center" style="padding: 20px; background: #111; color: orange; font-size: 14px;">
-                        <p style="margin: 0;">btc &copy; 2025 | All rights reserved</p>
-                        <p style="margin: 0;">Contact us: <a href="mailto:infor@btc.org" style="color: #1e90ff; text-decoration: none;">infor@btcpharmacy.org</a></p>
-                      </td></tr>
-                    </table>
-                  </td></tr>
-                </table>
-              </body>
-              </html>
+              <h2 style="color:#00e6e6; margin-top:20px;">💳 Payment Summary</h2>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Total Amount:</strong> ${newOrder.totalAmount}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Status:</strong> ${newOrder.status}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Confirmation Pin:</strong> ${newOrder.confirmationPin}</p>
+              <p style="color:#e6e6e6; font-size:16px; margin:8px 0;"><strong>Date Ordered:</strong> ${newOrder.createdAt}</p>
+
+              <p style="margin-top:20px; font-size:14px; color:#999;">⚠️ This is an automated notification for BTC Admins only.</p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" style="padding: 25px; background:#0d0d0d; color:#777; font-size:13px;">
+              <p style="margin:0; color:#888;">BTC Pharmacy © 2025 | All Rights Reserved</p>
+              <p style="margin:5px 0 0;"><a href="mailto:infor@btcpharmacy.org" style="color:#00e6e6; text-decoration:none;">📧 infor@btcpharmacy.org</a></p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+
             `
           };
           const result = await emailApi.sendTransacEmail(sendSmtpEmail);

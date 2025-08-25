@@ -12,7 +12,7 @@ import orderRoutes from './Allroutes/orders.js';
 import login from './Allroutes/Loginroute.js'
 import vendors from './Allroutes/vendorroute.js'
 import purchase from './Allroutes/Drugpurchaseroute.js'
-
+import balancesheet from './Allroutes/balancesheet.js'
 import subscriber from './Allroutes/Subscriberoute.js'
 
 import allorders from './Allroutes/AllOrders.js'
@@ -49,7 +49,7 @@ app.use('/order', orderRoutes);
 app.use('/vendors', vendors)
 app.use('/allorders', allorders)
 app.use("/subscriber", subscriber)
-
+app.use("/balancesheet", balancesheet)
 // app.use("/drugs/delete/id", deletedrug)
 app.use("/loginnormal", loginuser)
 
